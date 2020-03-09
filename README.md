@@ -1,13 +1,19 @@
-# Getting Started
+# Notifications between Spring beans using built-in messaging
 
-### Reference Documentation
-For further reference, please consider the following sections:
+Code for a blog post [Notifications between Spring beans using built-in messaging](https://98elements.com/blog/{CHANGE_ME}/).
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.2.RELEASE/gradle-plugin/reference/html/)
+## Content
+Different uses of Spring Application Events are presented in a set of tests.
+They are divided into 4 parts:
+* basic use of custom events (package custom)
+* handling standard Spring events (package standard)
+* events within transactional context (package transactional)
+* generic events (package generic)
 
-### Additional Links
-These additional references should also help you:
+## Build the Application
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+```bash
+$ ./gradlew clean build
+```
 
+See more posts at [98elements blog](https://98elements.com/blog)!
