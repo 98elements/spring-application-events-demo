@@ -1,0 +1,45 @@
+plugins {
+  id 'org.springframework.boot' version '2.2.2.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+  id 'java'
+}
+
+group = 'com._98elements'
+version = '0.0.1-SNAPSHOT'
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_13
+}
+
+repositories {
+  mavenCentral()
+}
+
+//configurations {
+//  compileOnly {
+//    extendsFrom annotationProcessor
+//  }
+//}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter'
+//  implementation 'org.springframework:spring-tx'
+
+  // to test events in transactional context
+  implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+  runtimeOnly 'com.h2database:h2'
+
+  compileOnly 'org.projectlombok:lombok'
+  annotationProcessor 'org.projectlombok:lombok'
+  testCompileOnly 'org.projectlombok:lombok'
+  testAnnotationProcessor 'org.projectlombok:lombok'
+
+  testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+  }
+  testImplementation 'org.mockito:mockito-core'
+}
+
+test {
+  useJUnitPlatform()
+}
