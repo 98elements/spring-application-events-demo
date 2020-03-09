@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import static com._98elements.springevents.transactional.TransactionalPublisher.*;
+
 @Service
 @RequiredArgsConstructor
 class TransactionalEventListeners {
@@ -15,22 +17,22 @@ class TransactionalEventListeners {
   private final ListenerTracker listenerTracker;
 
   @EventListener
-  void onEventWithoutTransaction(final TransactionalPublisher.Event event) {
-    listenerTracker.register(ListenerType.NON_TRANSACTIONAL_LISTENER);
+  void onEventWithoutTransaction(final Event event) {
+    listenerTracker.register(ListenerType.NON_TRANSACTIONAL);
   }
 
   @TransactionalEventListener
-  void onEventWithRequiredTransaction(final TransactionalPublisher.Event event) {
-    listenerTracker.register(ListenerType.TRANSACTIONAL_LISTENER);
+  void onEventWithRequiredTransaction(final Event event) {
+    listenerTracker.register(ListenerType.TRANSACTIONAL);
   }
 
   @TransactionalEventListener(fallbackExecution = true)
-  void onEventWithOptionalTransaction(final TransactionalPublisher.Event event) {
-    listenerTracker.register(ListenerType.TRANSACTIONAL_LISTENER_WITH_FALLBACK_EXECUTION);
+  void onEventWithOptionalTransaction(final Event event) {
+    listenerTracker.register(ListenerType.TRANSACTIONAL_WITH_FALLBACK_EXECUTION);
   }
 
   @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
-  void onEventOnlyAfterRollback(final TransactionalPublisher.Event event) {
-    listenerTracker.register(ListenerType.TRANSACTIONAL_LISTENER_ONLY_AFTER_ROLLBACK);
+  void onEventOnlyAfterRollback(final Event event) {
+    listenerTracker.register(ListenerType.TRANSACTIONAL_SET_ONLY_AFTER_ROLLBACK);
   }
 }

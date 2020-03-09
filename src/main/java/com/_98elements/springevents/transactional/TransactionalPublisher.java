@@ -26,5 +26,5 @@ class TransactionalPublisher {
     eventPublisher.publishEvent(new Event());
   }
 
-  public static class Event {}
+  static class Event {}
 }

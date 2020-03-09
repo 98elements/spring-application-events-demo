@@ -10,7 +10,7 @@ public class ListenerTracker {
 
   private final List<ListenerType> firedListeners = new ArrayList<>();
 
-  public void register(ListenerType listenerType) {
+  public void register(final ListenerType listenerType) {
     firedListeners.add(listenerType);
   }
 

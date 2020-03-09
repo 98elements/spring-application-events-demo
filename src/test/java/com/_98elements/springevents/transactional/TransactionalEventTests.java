@@ -3,16 +3,14 @@ package com._98elements.springevents.transactional;
 import com._98elements.springevents.EventListenerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import static com._98elements.springevents.ListenerType.NON_TRANSACTIONAL_LISTENER;
-import static com._98elements.springevents.ListenerType.TRANSACTIONAL_LISTENER;
-import static com._98elements.springevents.ListenerType.TRANSACTIONAL_LISTENER_ONLY_AFTER_ROLLBACK;
-import static com._98elements.springevents.ListenerType.TRANSACTIONAL_LISTENER_WITH_FALLBACK_EXECUTION;
+import static com._98elements.springevents.ListenerType.NON_TRANSACTIONAL;
+import static com._98elements.springevents.ListenerType.TRANSACTIONAL;
+import static com._98elements.springevents.ListenerType.TRANSACTIONAL_SET_ONLY_AFTER_ROLLBACK;
+import static com._98elements.springevents.ListenerType.TRANSACTIONAL_WITH_FALLBACK_EXECUTION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-@EnableTransactionManagement
 class TransactionalEventTests extends EventListenerTest {
 
   @Autowired
@@ -22,27 +20,27 @@ class TransactionalEventTests extends EventListenerTest {
   void thatRollbackIsIgnoredByStandardListener() {
     catchThrowable(() -> service.publishEventAndRollback());
     assertThat(listenerTracker.firedListeners()).containsExactly(
-      NON_TRANSACTIONAL_LISTENER, // this may come as a surprise
-      TRANSACTIONAL_LISTENER_ONLY_AFTER_ROLLBACK
+      NON_TRANSACTIONAL, // this may come as a surprise
+      TRANSACTIONAL_SET_ONLY_AFTER_ROLLBACK
     );
   }
 
   @Test
-  void thatCommittedTransactionIsReceivedByAllListeners() {
+  void thatCommittedTransactionIsReceivedByAllListenersButExplicitlySetAfterRollback() {
     service.publishEventAndCommit();
     assertThat(listenerTracker.firedListeners()).containsExactlyInAnyOrder(
-      NON_TRANSACTIONAL_LISTENER,
-      TRANSACTIONAL_LISTENER,
-      TRANSACTIONAL_LISTENER_WITH_FALLBACK_EXECUTION
+      NON_TRANSACTIONAL,
+      TRANSACTIONAL,
+      TRANSACTIONAL_WITH_FALLBACK_EXECUTION
     );
   }
 
   @Test
-  void thatUsingTransactionalListenerWithoutTransactionalContextFails() {
+  void thatEventWithoutTransactionalContextIsNotProcessedByTransactionalListeners() {
     service.publishEventWithoutTransactionalContext();
     assertThat(listenerTracker.firedListeners()).containsExactlyInAnyOrder(
-      NON_TRANSACTIONAL_LISTENER,
-      TRANSACTIONAL_LISTENER_WITH_FALLBACK_EXECUTION
+      NON_TRANSACTIONAL,
+      TRANSACTIONAL_WITH_FALLBACK_EXECUTION
     );
   }
 }

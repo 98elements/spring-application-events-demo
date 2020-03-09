@@ -10,7 +10,7 @@ import static com._98elements.springevents.ListenerType.WITH_ACCEPT_EVENT_TYPE;
 import static com._98elements.springevents.ListenerType.WITH_SPEL_SPECIAL_CONDITION;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class InvitationEventTests extends EventListenerTest {
+class CustomEventTests extends EventListenerTest {
 
   @Autowired
   private InvitationService invitationService;
